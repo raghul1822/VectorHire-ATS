@@ -4,23 +4,6 @@ An AI-driven **Applicant Tracking System (ATS)** built with **Streamlit** and **
 
 ---
 
-## 📑 Table of Contents
-
-- [Overview](#-overview)
-- [Project Structure](#-project-structure)
-- [Prerequisites](#-prerequisites)
-- [Installation](#-installation)
-- [Configuration](#-configuration)
-- [Usage](#-usage)
-- [Scoring Methodology](#-scoring-methodology)
-- [Tech Stack](#-tech-stack)
-- [Known Limitations](#-known-limitations)
-- [Roadmap](#-roadmap)
-- [Contributing](#-contributing)
-- [License](#-license)
-
----
-
 ## 🧭 Overview
 
 VectorHire ATS automates the first pass of resume screening by combining:
