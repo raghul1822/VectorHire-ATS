@@ -1,198 +1,1052 @@
 # 🎯 VectorHire ATS
 
-An AI-driven **Applicant Tracking System (ATS)** built with **Streamlit** and **Sentence Transformers**. It evaluates candidate resumes against a job description using semantic similarity, weighted skill matching, and experience-level scoring — then ranks candidates on an interactive dashboard.
+### AI-Powered Resume Analyzer & Candidate Profiler
+
+**VectorHire ATS** is an AI-driven Applicant Tracking System built with **Python, Streamlit, Sentence Transformers, and scikit-learn**.
+
+It analyzes candidate resumes against a Job Description (JD) using a combination of **weighted skill matching, semantic similarity, and experience-level analysis**. The results are presented through an interactive dashboard with candidate profiles, skill analysis, qualification status, and ATS scoring.
+
+> **From Resume → NLP Processing → Semantic Matching → Skill Analysis → ATS Score → Candidate Profile**
 
 ---
 
-## 🧭 Overview
+## 🚀 Key Features
 
-VectorHire ATS automates the first pass of resume screening by combining:
-
-- **Semantic understanding** — transformer-based sentence embeddings, so matches aren't purely keyword-based.
-- **Skill verification** — a configurable, weighted skills dictionary (`skills.json`).
-- **Experience validation** — regex-based years-of-experience extraction from resume and JD text.
-
-The result is a composite **ATS Score** per candidate, with a full breakdown of matched/missing skills and a structured candidate profile, rendered in a clean Streamlit dashboard.
+* 📄 **PDF & DOCX Resume Parsing**
+* 📝 **Job Description Processing**
+* 🧠 **Semantic Resume–JD Matching**
+* 🎯 **Weighted Skill Matching**
+* 💼 **Experience-Level Analysis**
+* 👤 **Structured Candidate Profiling**
+* 📊 **Composite ATS Scoring**
+* 🏆 **Candidate Leaderboard**
+* 🔍 **Candidate-Level Breakdown**
+* 📌 **Job Requirement Analysis**
+* ⚙️ **Configurable Skill Weights**
+* 🔐 **Local Processing**
+* ⚡ **Cached Embedding Model**
+* 🐍 **Python + Streamlit Architecture**
+* 📦 **uv-based Reproducible Environment**
 
 ---
 
-## 📁 Project Structure
+# 📑 Table of Contents
 
+* [Overview](#-overview)
+* [How It Works](#-how-it-works)
+* [System Architecture](#-system-architecture)
+* [Project Structure](#-project-structure)
+* [Prerequisites](#-prerequisites)
+* [Installation](#-installation)
+* [Configuration](#-configuration)
+* [Usage](#-usage)
+* [Scoring Methodology](#-scoring-methodology)
+* [Candidate Profiling](#-candidate-profiling)
+* [Tech Stack](#-tech-stack)
+* [Known Limitations](#-known-limitations)
+* [Roadmap](#-roadmap)
+* [Contributing](#-contributing)
+* [License](#-license)
+
+---
+
+# 🧭 Overview
+
+Traditional resume screening systems often depend heavily on exact keyword matching.
+
+VectorHire ATS combines **rule-based skill extraction** with **semantic embeddings** to measure how closely a candidate's resume aligns with the requirements of a Job Description.
+
+### Core Components
+
+| Component           | Purpose                                            |
+| ------------------- | -------------------------------------------------- |
+| Resume Parser       | Extracts text from PDF/DOCX resumes                |
+| JD Parser           | Extracts requirements from the Job Description     |
+| Skill Extractor     | Detects configured skills using pattern matching   |
+| Embedding Model     | Converts text into semantic vector representations |
+| Similarity Engine   | Calculates resume–JD semantic similarity           |
+| Experience Analyzer | Extracts and compares years of experience          |
+| Scoring Engine      | Combines individual scores into an ATS score       |
+| Streamlit Dashboard | Displays candidate analysis interactively          |
+
+---
+
+# 🔄 How It Works
+
+```text
+                 ┌──────────────────────┐
+                 │   Job Description    │
+                 │      PDF / DOCX      │
+                 └──────────┬───────────┘
+                            │
+                            ▼
+                 ┌──────────────────────┐
+                 │    JD Text Parser    │
+                 └──────────┬───────────┘
+                            │
+                            ▼
+                 ┌──────────────────────┐
+                 │  JD Preprocessing    │
+                 └──────────┬───────────┘
+                            │
+                            │
+      ┌─────────────────────┴─────────────────────┐
+      │                                           │
+      ▼                                           ▼
+┌───────────────┐                         ┌──────────────────┐
+│ Skills        │                         │ Semantic         │
+│ Extraction    │                         │ Embeddings       │
+│               │                         │                  │
+│ skills.json   │                         │ MiniLM           │
+└───────┬───────┘                         └────────┬─────────┘
+        │                                          │
+        │                                          │
+        │                ┌─────────────────────────┘
+        │                │
+        ▼                ▼
+┌───────────────┐   ┌──────────────────┐
+│ Weighted      │   │ Cosine           │
+│ Skill Score   │   │ Similarity       │
+└───────┬───────┘   └────────┬─────────┘
+        │                    │
+        └─────────┬──────────┘
+                  │
+                  ▼
+        ┌─────────────────────┐
+        │ Experience Analysis │
+        └──────────┬──────────┘
+                   │
+                   ▼
+        ┌─────────────────────┐
+        │    ATS Score Engine │
+        └──────────┬──────────┘
+                   │
+                   ▼
+        ┌─────────────────────┐
+        │ Candidate Profile   │
+        │ & Qualification     │
+        └──────────┬──────────┘
+                   │
+                   ▼
+        ┌─────────────────────┐
+        │ Streamlit Dashboard │
+        └─────────────────────┘
 ```
+
+---
+
+# 🏗️ System Architecture
+
+VectorHire follows a lightweight AI application architecture:
+
+```text
+┌──────────────────────────────────────────────────────┐
+│                  Streamlit Frontend                  │
+│                                                      │
+│ Upload JD │ Upload Resumes │ Threshold │ Dashboard  │
+└─────────────────────────┬────────────────────────────┘
+                          │
+                          ▼
+┌──────────────────────────────────────────────────────┐
+│                Document Processing                   │
+│                                                      │
+│ PDF → pdfplumber        DOCX → docx2txt             │
+└─────────────────────────┬────────────────────────────┘
+                          │
+                          ▼
+┌──────────────────────────────────────────────────────┐
+│                 Text Processing                      │
+│                                                      │
+│ Cleaning │ Normalization │ Pattern Extraction       │
+└───────────────┬─────────────────────┬────────────────┘
+                │                     │
+                ▼                     ▼
+      ┌──────────────────┐   ┌────────────────────────┐
+      │ Skill Extraction │   │ Sentence Transformers  │
+      │   Regex + JSON   │   │   all-MiniLM-L6-v2     │
+      └────────┬─────────┘   └───────────┬────────────┘
+               │                         │
+               ▼                         ▼
+      ┌──────────────────┐     ┌──────────────────────┐
+      │ Weighted Skill   │     │ Semantic Similarity  │
+      │ Score            │     │ Cosine Similarity    │
+      └────────┬─────────┘     └──────────┬───────────┘
+               │                          │
+               └────────────┬─────────────┘
+                            ▼
+                  ┌─────────────────────┐
+                  │ Experience Matching │
+                  └──────────┬──────────┘
+                             │
+                             ▼
+                  ┌─────────────────────┐
+                  │    ATS Score        │
+                  └──────────┬──────────┘
+                             │
+                             ▼
+                  ┌─────────────────────┐
+                  │ Candidate Dashboard │
+                  └─────────────────────┘
+```
+
+---
+
+# 📁 Project Structure
+
+```text
 VectorHire_ATS/
-├── .venv/                  # Virtual environment (managed by uv, not committed)
+│
+├── .venv/                  # Local virtual environment (not committed)
+│
 ├── src/                    # Application source package
-├── .gitignore              # Git ignore rules
-├── .python-version         # Pinned Python version for the project
-├── app.py                  # Main Streamlit application entry point
-├── pyproject.toml          # Project metadata & dependency declarations
-├── requirements.txt        # Pip-compatible dependency list
-├── skills.json             # Skill dictionary with importance weights
-├── uv.lock                 # Locked, reproducible dependency versions (uv)
-└── README.md                # Project documentation (this file)
+│
+├── .gitignore              # Git ignore configuration
+├── .python-version         # Project Python version
+│
+├── app.py                  # Main Streamlit application
+│
+├── pyproject.toml          # Project metadata & dependencies
+├── requirements.txt        # Pip-compatible dependencies
+│
+├── skills.json             # Skill vocabulary & importance weights
+│
+├── uv.lock                 # Reproducible dependency lockfile
+│
+├── LICENSE                 # MIT License
+└── README.md               # Project documentation
+```
+
+### Architecture Direction
+
+The `src/` directory is intended to evolve into separate application modules:
+
+```text
+src/
+├── parsing/
+├── extraction/
+├── scoring/
+├── embeddings/
+├── profiling/
+└── ui/
+```
+
+This separation can improve maintainability as the application grows.
+
+---
+
+# ✅ Prerequisites
+
+Before running VectorHire ATS, make sure you have:
+
+* **Python** — version specified in `.python-version`
+* **Git**
+* **uv** — recommended
+* Internet access for the initial embedding-model download
+
+### Recommended Package Manager
+
+[uv](https://docs.astral.sh/uv/) is recommended because the project includes:
+
+```text
+pyproject.toml
+uv.lock
+```
+
+These files allow dependencies to be installed reproducibly.
+
+`pip` is also supported through:
+
+```text
+requirements.txt
 ```
 
 ---
 
-## ✅ Prerequisites
+# ⚙️ Installation
 
-- Python version as pinned in [`.python-version`](.python-version)
-- [uv](https://docs.astral.sh/uv/) (recommended) — a fast Python package/dependency manager
-  *(pip works too, via `requirements.txt`)*
+## Option A — Using uv
 
----
-
-## ⚙️ Installation
-
-### Option A — Using `uv` (recommended, matches `uv.lock`)
+### 1. Clone the repository
 
 ```bash
-# 1. Clone the repository
-git clone <your-repo-url>
+git clone <your-repository-url>
 cd VectorHire_ATS
+```
 
-# 2. Sync the environment from the lockfile
+### 2. Sync dependencies
+
+```bash
 uv sync
+```
 
-# 3. Run the app
+This creates/updates the project's `.venv` environment and installs the locked dependencies.
+
+### 3. Run VectorHire ATS
+
+```bash
 uv run streamlit run app.py
 ```
 
-`uv sync` creates/updates `.venv/` and installs exact versions from `uv.lock`, ensuring a reproducible environment.
+---
 
-### Option B — Using `pip`
+## Option B — Using pip
+
+### 1. Clone the repository
 
 ```bash
-# 1. Clone the repository
-git clone <your-repo-url>
+git clone <your-repository-url>
 cd VectorHire_ATS
+```
 
-# 2. Create a virtual environment
+### 2. Create a virtual environment
+
+### Windows
+
+```bash
 python -m venv .venv
-source .venv/bin/activate      # macOS/Linux
-.venv\Scripts\activate         # Windows
+.venv\Scripts\activate
+```
 
-# 3. Install dependencies
+### macOS / Linux
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+```
+
+### 3. Install dependencies
+
+```bash
 pip install -r requirements.txt
+```
 
-# 4. Run the app
+### 4. Start the application
+
+```bash
 streamlit run app.py
 ```
 
-> ℹ️ On first run, `sentence-transformers` downloads the `all-MiniLM-L6-v2` embedding model (~80 MB). An internet connection is required for this one-time download; it is cached locally afterward.
+---
+
+## 🤖 First Model Download
+
+On the first execution, Sentence Transformers downloads:
+
+```text
+all-MiniLM-L6-v2
+```
+
+The model is approximately **80 MB** and is cached locally after the initial download.
+
+Therefore:
+
+```text
+First Run
+    │
+    ├── Internet Required
+    ├── Download Model
+    └── Cache Locally
+             │
+             ▼
+Future Runs
+    │
+    └── Load Cached Model
+```
 
 ---
 
-## 🔧 Configuration
+# 🔧 Configuration
 
-`skills.json` (project root) defines the skill vocabulary the app can detect, with an optional importance weight used in skill-match scoring:
+## `skills.json`
+
+The `skills.json` file defines the skill vocabulary used by the application.
+
+Example:
 
 ```json
 {
   "python": 3,
   "sql": 2,
   "machine learning": 3,
+  "deep learning": 3,
+  "pandas": 2,
+  "numpy": 2,
+  "fastapi": 2,
   "docker": 2,
+  "aws": 2,
   "communication": 1
 }
 ```
 
-- **Key** → skill name (matched case-insensitively).
-- **Value** → weight (higher = more influence on the Skill Match score). Skills without an explicit weight default to `1`.
+### Weight System
+
+| Weight | Meaning                    |
+| -----: | -------------------------- |
+|    `1` | Lower relative importance  |
+|    `2` | Medium relative importance |
+|    `3` | Higher relative importance |
+
+The weights affect the **Skill Match** component of the ATS score.
+
+### Matching Behavior
+
+Skill names are matched case-insensitively.
+
+For example:
+
+```text
+Python
+python
+PYTHON
+```
+
+are treated as the same configured skill.
 
 ---
 
-## ▶️ Usage
+# ▶️ Usage
+
+Start the application:
 
 ```bash
 uv run streamlit run app.py
-# or, if using pip:
+```
+
+or:
+
+```bash
 streamlit run app.py
 ```
 
-**Workflow:**
-
-1. Upload a **Job Description** (PDF or DOCX) via the sidebar.
-2. Upload one or more **candidate resumes** (PDF or DOCX).
-3. Set the **qualification threshold** using the slider.
-4. Review results across the tabs:
-   - **🏆 Leaderboard** — ranked candidates with overall ATS scores
-   - **🔍 Candidate Profile Breakdown** — per-candidate skill match, missing skills, and structured JSON profile
-   - **📌 Job Requirements** — skills and experience level parsed from the uploaded JD
-
 ---
 
-## 🧮 Scoring Methodology
+## Step 1 — Upload Job Description
 
-Each resume is evaluated against the job description across three weighted dimensions:
+Upload a Job Description in:
 
-| Component | Weight | Method |
-|---|:---:|---|
-| **Skill Match** | 45% | Weighted overlap of detected resume skills vs. JD-required skills, using `skills.json` weights |
-| **Semantic Similarity** | 40% | Cosine similarity between sentence-transformer embeddings (`all-MiniLM-L6-v2`) of cleaned resume/JD text |
-| **Experience Match** | 15% | Ratio of candidate's detected years of experience to the JD's required years (capped at 100%) |
-
-```
-ATS Score = (Skill Score × 0.45) + (Semantic Score × 0.40) + (Experience Score × 0.15)
+```text
+PDF
+DOCX
 ```
 
-A candidate is flagged **Qualified** once their ATS Score meets or exceeds the threshold configured in the sidebar.
+format through the Streamlit sidebar.
 
 ---
 
-## 🛠️ Tech Stack
+## Step 2 — Upload Candidate Resumes
 
-| Layer | Technology |
-|---|---|
-| UI Framework | [Streamlit](https://streamlit.io/) |
-| NLP Embeddings | [Sentence Transformers](https://www.sbert.net/) (`all-MiniLM-L6-v2`) |
-| Similarity Scoring | [scikit-learn](https://scikit-learn.org/) (cosine similarity) |
-| PDF Parsing | [pdfplumber](https://github.com/jsvine/pdfplumber) |
-| DOCX Parsing | [docx2txt](https://github.com/ankushshah89/python-docx2txt) |
-| Data Handling | [pandas](https://pandas.pydata.org/) |
-| Dependency Management | [uv](https://docs.astral.sh/uv/) (`pyproject.toml` / `uv.lock`) |
+Upload one or more candidate resumes.
 
----
+Supported formats:
 
-## ⚠️ Known Limitations
-
-- **Name extraction** relies on the first non-empty line of a resume — unreliable for resumes with headers, logos, or non-standard layouts.
-- **Experience extraction** only matches simple patterns like `"5 years"` or `"3+ year"` — it does not parse date ranges (e.g., `"2019–2024"`).
-- **Skill detection** is entirely dependent on `skills.json` — any skill not listed there will never be recognized.
-- All processing runs **locally**; no resume or JD content is sent to external APIs.
-- The AI model loads on first run and is cached afterward via `@st.cache_resource`, so the very first analysis may take longer.
+```text
+PDF
+DOCX
+```
 
 ---
 
-## 🗺️ Roadmap
+## Step 3 — Configure Qualification Threshold
 
-- [ ] Improve name extraction using a lightweight NER model
-- [ ] Support date-range experience parsing (e.g., `"2019–2024"`)
-- [ ] Add per-candidate PDF summary/report export
-- [ ] Add authentication for multi-recruiter usage
-- [ ] Containerize with Docker for one-command deployment
-- [ ] Expand `src/` into a proper package (parsing, scoring, UI as separate modules)
+Use the sidebar slider to define the minimum ATS score required for the application's qualification label.
 
 ---
 
-## 🤝 Contributing
+## Step 4 — Run Analysis
 
-Contributions are welcome. To propose a change:
+VectorHire processes each candidate through the analysis pipeline:
 
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/your-feature`
-3. Install dependencies with `uv sync`
-4. Commit your changes with clear, descriptive messages
-5. Open a pull request describing the change and motivation
-
-Please run the app locally and verify scoring output before submitting changes to extraction or scoring logic.
+```text
+Resume
+   ↓
+Text Extraction
+   ↓
+Text Cleaning
+   ↓
+Skill Extraction
+   ↓
+Semantic Embedding
+   ↓
+Experience Extraction
+   ↓
+Score Calculation
+   ↓
+Candidate Profile
+```
 
 ---
 
-## 📄 License
+# 📊 Dashboard
 
-This project is available under the **MIT License** — update this section with your organization's preferred license terms.
+The application provides three primary analysis areas.
+
+## 🏆 Leaderboard
+
+Displays candidate-level results including:
+
+* Candidate name
+* ATS score
+* Qualification status
+* Ranking information
 
 ---
 
-<p align="center">Built with ❤️ using Streamlit and Sentence Transformers</p>
+## 🔍 Candidate Profile Breakdown
+
+Provides detailed information for an individual candidate:
+
+* Detected skills
+* Matched skills
+* Missing skills
+* Experience
+* Education
+* Semantic score
+* Skill score
+* Experience score
+* Structured candidate profile
+
+---
+
+## 📌 Job Requirements
+
+Displays requirements extracted from the Job Description, including:
+
+* Required skills
+* Detected experience requirement
+* Parsed job information
+
+---
+
+# 🧮 Scoring Methodology
+
+VectorHire ATS combines three scoring components.
+
+| Component               |  Weight | Method                                           |
+| ----------------------- | ------: | ------------------------------------------------ |
+| **Skill Match**         | **45%** | Weighted overlap between resume and JD skills    |
+| **Semantic Similarity** | **40%** | Cosine similarity between transformer embeddings |
+| **Experience Match**    | **15%** | Candidate experience relative to JD requirement  |
+
+### Final ATS Formula
+
+```text
+ATS Score =
+    (Skill Score × 0.45)
+  + (Semantic Score × 0.40)
+  + (Experience Score × 0.15)
+```
+
+The resulting score represents the application's calculated alignment between the resume and the target Job Description.
+
+---
+
+## 🎯 Skill Match
+
+The application extracts configured skills from:
+
+```text
+Resume
+   │
+   ▼
+Skill Dictionary
+   │
+   ▼
+Detected Resume Skills
+```
+
+and compares them against the skills detected in the JD.
+
+Weights from `skills.json` are used when calculating the skill component.
+
+---
+
+## 🧠 Semantic Similarity
+
+The application uses:
+
+```text
+Sentence Transformers
+        │
+        ▼
+all-MiniLM-L6-v2
+```
+
+to generate embeddings.
+
+Conceptually:
+
+```text
+Resume ─────────► Embedding Vector
+                       │
+                       │
+                       ▼
+                 Cosine Similarity
+                       ▲
+                       │
+                       │
+JD ───────────────► Embedding Vector
+```
+
+This allows the system to measure semantic alignment rather than relying exclusively on exact keyword matches.
+
+---
+
+## 💼 Experience Match
+
+The current implementation extracts simple experience expressions such as:
+
+```text
+5 years
+3+ years
+2 year
+```
+
+The candidate's detected experience is compared against the experience requirement identified in the JD.
+
+The resulting experience component is capped at the maximum score.
+
+---
+
+# 👤 Candidate Profiling
+
+VectorHire can convert extracted resume information into a structured candidate profile.
+
+Example:
+
+```json
+{
+  "name": "Candidate Name",
+  "experience": "3+ years",
+  "education": "B.E. Computer Science",
+  "skills": [
+    "Python",
+    "SQL",
+    "Machine Learning",
+    "FastAPI",
+    "Docker"
+  ]
+}
+```
+
+This structured representation provides a foundation for future AI-powered recruitment workflows.
+
+---
+
+# 🔐 Privacy & Data Processing
+
+VectorHire ATS is designed for local processing.
+
+```text
+Resume / JD
+     │
+     ▼
+Local Application
+     │
+     ├── PDF/DOCX Parsing
+     ├── Text Processing
+     ├── Skill Extraction
+     ├── Embedding Generation
+     └── Score Calculation
+     │
+     ▼
+Local Dashboard
+```
+
+Resume and Job Description content is not intentionally sent to an external AI API by the core application.
+
+> **Important:** Deployment environments should still be reviewed for logs, temporary files, hosting infrastructure, and dependency behavior before processing sensitive recruitment information.
+
+---
+
+# ⚠️ Known Limitations
+
+### 1. Name Extraction
+
+Name extraction currently relies on the first non-empty line of the resume.
+
+This can be unreliable for documents containing:
+
+* Logos
+* Images
+* Complex headers
+* Tables
+* Non-standard layouts
+
+---
+
+### 2. Experience Extraction
+
+The current implementation primarily handles simple patterns such as:
+
+```text
+5 years
+3+ years
+2 year
+```
+
+It does not reliably parse date ranges such as:
+
+```text
+2019 – 2024
+2020 – Present
+Jan 2021 – Mar 2025
+```
+
+---
+
+### 3. Skill Dictionary Dependency
+
+Skill detection depends on the contents of:
+
+```text
+skills.json
+```
+
+If a skill is not included in the dictionary, the current rule-based extractor may not detect it.
+
+---
+
+### 4. PDF Extraction
+
+Text extraction quality can vary depending on the structure of a PDF.
+
+Image-only/scanned resumes may require OCR, which is not currently included in the core pipeline.
+
+---
+
+### 5. Semantic Similarity
+
+Semantic similarity provides a text-alignment signal. It does not independently verify that a candidate actually possesses a claimed skill or that resume information is accurate.
+
+---
+
+### 6. Screening Assistance
+
+ATS scores should be treated as **decision-support signals**, not as a standalone basis for employment decisions. Human review and appropriate recruitment processes remain important.
+
+---
+
+# 🗺️ Roadmap
+
+## Resume Intelligence
+
+* [ ] Advanced name extraction
+* [ ] NER-based candidate information extraction
+* [ ] Job-title extraction
+* [ ] Company extraction
+* [ ] Certification extraction
+* [ ] Project extraction
+* [ ] Improved education extraction
+* [ ] Date-range experience parsing
+* [ ] OCR support for scanned resumes
+
+## Semantic Intelligence
+
+* [ ] Advanced embedding models
+* [ ] Skill synonym detection
+* [ ] Semantic skill matching
+* [ ] Domain-specific embeddings
+* [ ] Vector database integration
+
+## LLM & RAG
+
+* [ ] LLM-powered candidate profiling
+* [ ] Structured LLM outputs
+* [ ] Resume summarization
+* [ ] Skill-gap analysis
+* [ ] RAG-based resume retrieval
+* [ ] Resume/JD question answering
+
+Potential technologies:
+
+```text
+FAISS
+pgvector
+Qdrant
+Chroma
+```
+
+## Backend & Production
+
+* [ ] FastAPI backend
+* [ ] PostgreSQL database
+* [ ] Authentication
+* [ ] Role-based access control
+* [ ] Docker
+* [ ] CI/CD
+* [ ] Cloud deployment
+* [ ] Evaluation framework
+* [ ] Observability
+* [ ] MLOps / LLMOps
+
+---
+
+# 🔮 Future AI Architecture
+
+The current Streamlit application can evolve into a larger AI recruitment platform:
+
+```text
+                         ┌────────────────────┐
+                         │      Frontend      │
+                         │ Streamlit / React  │
+                         └─────────┬──────────┘
+                                   │
+                                   ▼
+                         ┌────────────────────┐
+                         │      FastAPI       │
+                         │     Backend        │
+                         └─────────┬──────────┘
+                                   │
+                 ┌─────────────────┼─────────────────┐
+                 │                 │                 │
+                 ▼                 ▼                 ▼
+          Resume Service      JD Service      Scoring Service
+                 │                 │                 │
+                 └─────────────────┼─────────────────┘
+                                   │
+                                   ▼
+                         ┌────────────────────┐
+                         │   NLP / AI Layer  │
+                         ├────────────────────┤
+                         │ Embeddings         │
+                         │ NER                │
+                         │ LLM                │
+                         │ RAG                │
+                         └─────────┬──────────┘
+                                   │
+                    ┌──────────────┴──────────────┐
+                    ▼                             ▼
+             ┌──────────────┐              ┌──────────────┐
+             │ PostgreSQL   │              │ Vector DB    │
+             │              │              │              │
+             │ Candidate    │              │ Embeddings   │
+             │ Profiles     │              │ Retrieval    │
+             └──────────────┘              └──────────────┘
+```
+
+---
+
+# 📈 Project Evolution
+
+VectorHire is designed as an evolving AI Engineering project.
+
+```text
+Phase 1
+Basic ATS
+   │
+   ▼
+Regex Skill Matching
+   │
+   ▼
+Phase 2
+Candidate Profiling
+   │
+   ▼
+Semantic Embeddings
+   │
+   ▼
+Phase 3
+Weighted ATS Scoring
+   │
+   ▼
+Interactive Dashboard
+   │
+   ▼
+Phase 4
+LLM + RAG
+   │
+   ▼
+Phase 5
+FastAPI + PostgreSQL
+   │
+   ▼
+Phase 6
+Docker + Cloud
+   │
+   ▼
+Phase 7
+Evaluation + Observability
+   │
+   ▼
+Production AI Platform
+```
+
+---
+
+# 🛠️ Tech Stack
+
+| Layer                  | Technology             | Purpose                             |
+| ----------------------- | ---------------------- | ------------------------------------ |
+| **Language**           | Python                  | Application development             |
+| **Frontend/UI**        | Streamlit               | Interactive dashboard               |
+| **NLP**                | Sentence Transformers   | Text embeddings                     |
+| **Embedding Model**    | `all-MiniLM-L6-v2`      | Semantic representation             |
+| **Similarity**         | scikit-learn            | Cosine similarity                   |
+| **PDF Parsing**        | pdfplumber              | PDF text extraction                 |
+| **DOCX Parsing**       | docx2txt                | Word document extraction            |
+| **Data Processing**    | pandas                  | Data manipulation                   |
+| **Pattern Matching**   | Python Regex            | Skill/experience extraction         |
+| **Configuration**      | JSON                    | Skill vocabulary & weights          |
+| **Dependency Manager** | uv                      | Environment & dependency management |
+
+---
+
+# 📦 Core Dependencies
+
+```text
+streamlit
+sentence-transformers
+scikit-learn
+pdfplumber
+docx2txt
+pandas
+```
+
+Install through:
+
+```bash
+uv sync
+```
+
+or:
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+# 🧪 Development
+
+Run the application locally:
+
+```bash
+uv run streamlit run app.py
+```
+
+Before submitting changes, verify:
+
+* Resume parsing
+* JD parsing
+* Skill extraction
+* Semantic similarity
+* Experience extraction
+* ATS score calculation
+* Qualification threshold
+* Candidate dashboard
+
+Changes to scoring or extraction logic should be tested with multiple resume/JD combinations.
+
+---
+
+# 🤝 Contributing
+
+Contributions are welcome.
+
+### Contribution Workflow
+
+```bash
+git checkout -b feature/your-feature
+```
+
+Make your changes, test locally, then commit:
+
+```bash
+git add .
+git commit -m "feat: improve resume skill extraction"
+```
+
+Push your branch:
+
+```bash
+git push origin feature/your-feature
+```
+
+Then open a Pull Request describing:
+
+* What changed
+* Why it changed
+* How it was tested
+* Any known limitations
+
+---
+
+# 📄 License
+
+This project is licensed under the **MIT License**.
+
+See the [`LICENSE`](LICENSE) file for complete license information.
+
+---
+
+# 👨‍💻 Author
+
+## Raghul A
+
+**Aspiring AI Engineer**
+
+Focused on building practical AI applications using:
+
+```text
+Python
+Machine Learning
+Deep Learning
+NLP
+LLMs
+RAG
+AI Agents
+FastAPI
+Docker
+Cloud
+MLOps / LLMOps
+```
+
+### Connect
+
+* **LinkedIn:** `www.linkedin.com/in/raghul-ai`
+* **GitHub:** `github.com/raghul1822`
+
+---
+
+# ⭐ Project Summary
+
+VectorHire ATS demonstrates an end-to-end approach to building an AI-assisted resume analysis application.
+
+```text
+                 VECTORHIRE ATS
+
+Resume + Job Description
+            │
+            ▼
+     Document Parsing
+            │
+            ▼
+      Text Processing
+            │
+      ┌─────┴─────┐
+      ▼           ▼
+    Skills     Embeddings
+      │           │
+      ▼           ▼
+   Weighted    Semantic
+   Matching    Similarity
+      │           │
+      └─────┬─────┘
+            ▼
+    Experience Analysis
+            │
+            ▼
+       ATS Score
+            │
+            ▼
+   Candidate Profile
+            │
+            ▼
+   Interactive Dashboard
+```
+
+> **VectorHire ATS — Analyze resumes, understand candidate–job alignment, and turn unstructured documents into structured hiring signals.**
+
+<p align="center">
+  Built with ❤️ using Python, Streamlit & Sentence Transformers
+</p>
