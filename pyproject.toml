@@ -1,0 +1,25 @@
+[project]
+name = "vectorhire-ats"
+version = "0.1.0"
+description = "Enterprise AI ATS Resume Analyzer using Deep Learning Embeddings and Skill Matching"
+readme = "README.md"
+requires-python = ">=3.12"
+authors = [
+    { name = "raghul1822", email = "raghul182202@gmail.com" }
+]
+dependencies = [
+    "streamlit>=1.30.0",
+    "pdfplumber>=0.10.0",
+    "docx2txt>=0.8",
+    "sentence-transformers>=2.2.0",
+    "scikit-learn>=1.3.0",
+    "pandas>=2.0.0",
+    "spacy>=3.7.0"
+]
+
+[project.scripts]
+vectorhire-ats = "app:main"
+
+[build-system]
+requires = ["uv_build>=0.12.0,<0.13.0"]
+build-backend = "uv_build"
