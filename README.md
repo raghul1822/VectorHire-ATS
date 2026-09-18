@@ -1,4 +1,4 @@
-# 🎯 VectorHire ATS
+# VectorHire ATS
 
 ### AI-Powered Resume Analyzer & Candidate Profiler
 
@@ -10,7 +10,7 @@ It analyzes candidate resumes against a Job Description (JD) using a combination
 
 ---
 
-## 🚀 Key Features
+## Key Features
 
 * 📄 **PDF & DOCX Resume Parsing**
 * 📝 **Job Description Processing**
@@ -30,27 +30,7 @@ It analyzes candidate resumes against a Job Description (JD) using a combination
 
 ---
 
-# 📑 Table of Contents
-
-* [Overview](#-overview)
-* [How It Works](#-how-it-works)
-* [System Architecture](#-system-architecture)
-* [Project Structure](#-project-structure)
-* [Prerequisites](#-prerequisites)
-* [Installation](#-installation)
-* [Configuration](#-configuration)
-* [Usage](#-usage)
-* [Scoring Methodology](#-scoring-methodology)
-* [Candidate Profiling](#-candidate-profiling)
-* [Tech Stack](#-tech-stack)
-* [Known Limitations](#-known-limitations)
-* [Roadmap](#-roadmap)
-* [Contributing](#-contributing)
-* [License](#-license)
-
----
-
-# 🧭 Overview
+# Overview
 
 Traditional resume screening systems often depend heavily on exact keyword matching.
 
@@ -71,7 +51,7 @@ VectorHire ATS combines **rule-based skill extraction** with **semantic embeddin
 
 ---
 
-# 🔄 How It Works
+# How It Works
 
 ```text
                  ┌──────────────────────┐
@@ -135,7 +115,7 @@ VectorHire ATS combines **rule-based skill extraction** with **semantic embeddin
 
 ---
 
-# 🏗️ System Architecture
+# System Architecture
 
 VectorHire follows a lightweight AI application architecture:
 
@@ -191,7 +171,7 @@ VectorHire follows a lightweight AI application architecture:
 
 ---
 
-# 📁 Project Structure
+# Project Structure
 
 ```text
 VectorHire_ATS/
@@ -234,7 +214,7 @@ This separation can improve maintainability as the application grows.
 
 ---
 
-# ✅ Prerequisites
+# Prerequisites
 
 Before running VectorHire ATS, make sure you have:
 
@@ -262,7 +242,7 @@ requirements.txt
 
 ---
 
-# ⚙️ Installation
+# Installation
 
 ## Option A — Using uv
 
@@ -328,7 +308,7 @@ streamlit run app.py
 
 ---
 
-## 🤖 First Model Download
+## First Model Download
 
 On the first execution, Sentence Transformers downloads:
 
@@ -355,7 +335,7 @@ Future Runs
 
 ---
 
-# 🔧 Configuration
+# Configuration
 
 ## `skills.json`
 
@@ -404,7 +384,7 @@ are treated as the same configured skill.
 
 ---
 
-# ▶️ Usage
+# Usage
 
 Start the application:
 
@@ -476,11 +456,11 @@ Candidate Profile
 
 ---
 
-# 📊 Dashboard
+# Dashboard
 
 The application provides three primary analysis areas.
 
-## 🏆 Leaderboard
+## Leaderboard
 
 Displays candidate-level results including:
 
@@ -491,7 +471,7 @@ Displays candidate-level results including:
 
 ---
 
-## 🔍 Candidate Profile Breakdown
+## Candidate Profile Breakdown
 
 Provides detailed information for an individual candidate:
 
@@ -507,7 +487,7 @@ Provides detailed information for an individual candidate:
 
 ---
 
-## 📌 Job Requirements
+## Job Requirements
 
 Displays requirements extracted from the Job Description, including:
 
@@ -517,7 +497,7 @@ Displays requirements extracted from the Job Description, including:
 
 ---
 
-# 🧮 Scoring Methodology
+# Scoring Methodology
 
 VectorHire ATS combines three scoring components.
 
@@ -540,7 +520,7 @@ The resulting score represents the application's calculated alignment between th
 
 ---
 
-## 🎯 Skill Match
+## Skill Match
 
 The application extracts configured skills from:
 
@@ -560,7 +540,7 @@ Weights from `skills.json` are used when calculating the skill component.
 
 ---
 
-## 🧠 Semantic Similarity
+## Semantic Similarity
 
 The application uses:
 
@@ -591,7 +571,7 @@ This allows the system to measure semantic alignment rather than relying exclusi
 
 ---
 
-## 💼 Experience Match
+## Experience Match
 
 The current implementation extracts simple experience expressions such as:
 
@@ -607,7 +587,7 @@ The resulting experience component is capped at the maximum score.
 
 ---
 
-# 👤 Candidate Profiling
+# Candidate Profiling
 
 VectorHire can convert extracted resume information into a structured candidate profile.
 
@@ -632,7 +612,7 @@ This structured representation provides a foundation for future AI-powered recru
 
 ---
 
-# 🔐 Privacy & Data Processing
+# Privacy & Data Processing
 
 VectorHire ATS is designed for local processing.
 
@@ -658,7 +638,7 @@ Resume and Job Description content is not intentionally sent to an external AI A
 
 ---
 
-# ⚠️ Known Limitations
+# Known Limitations
 
 ### 1. Name Extraction
 
@@ -726,7 +706,7 @@ ATS scores should be treated as **decision-support signals**, not as a standalon
 
 ---
 
-# 🗺️ Roadmap
+# Roadmap
 
 ## Resume Intelligence
 
@@ -781,7 +761,7 @@ Chroma
 
 ---
 
-# 🔮 Future AI Architecture
+# Future AI Architecture
 
 The current Streamlit application can evolve into a larger AI recruitment platform:
 
@@ -826,7 +806,7 @@ The current Streamlit application can evolve into a larger AI recruitment platfo
 
 ---
 
-# 📈 Project Evolution
+# Project Evolution
 
 VectorHire is designed as an evolving AI Engineering project.
 
@@ -873,7 +853,7 @@ Production AI Platform
 
 ---
 
-# 🛠️ Tech Stack
+# Tech Stack
 
 | Layer                  | Technology             | Purpose                             |
 | ----------------------- | ---------------------- | ------------------------------------ |
@@ -891,7 +871,7 @@ Production AI Platform
 
 ---
 
-# 📦 Core Dependencies
+# Core Dependencies
 
 ```text
 streamlit
@@ -916,7 +896,7 @@ pip install -r requirements.txt
 
 ---
 
-# 🧪 Development
+# Development
 
 Run the application locally:
 
@@ -939,7 +919,7 @@ Changes to scoring or extraction logic should be tested with multiple resume/JD 
 
 ---
 
-# 🤝 Contributing
+# Contributing
 
 Contributions are welcome.
 
@@ -971,7 +951,7 @@ Then open a Pull Request describing:
 
 ---
 
-# 📄 License
+# License
 
 This project is licensed under the **MIT License**.
 
@@ -979,7 +959,7 @@ See the [`LICENSE`](LICENSE) file for complete license information.
 
 ---
 
-# 👨‍💻 Author
+# Author
 
 ## Raghul A
 
@@ -1008,7 +988,7 @@ MLOps / LLMOps
 
 ---
 
-# ⭐ Project Summary
+# Project Summary
 
 VectorHire ATS demonstrates an end-to-end approach to building an AI-assisted resume analysis application.
 
@@ -1046,6 +1026,9 @@ Resume + Job Description
 ```
 
 > **VectorHire ATS — Analyze resumes, understand candidate–job alignment, and turn unstructured documents into structured hiring signals.**
+
+
+
 
 <p align="center">
   Built with ❤️ using Python, Streamlit & Sentence Transformers
