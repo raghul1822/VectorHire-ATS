@@ -2,14 +2,13 @@
 
 ### AI-Powered Resume Analyzer & Candidate Profiler
 
+![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?logo=streamlit&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-yellow)
+
 **VectorHire ATS** is an AI-driven Applicant Tracking System built with **Python, Streamlit, Sentence Transformers, and scikit-learn**.
 
 It analyzes candidate resumes against a Job Description (JD) using a combination of **weighted skill matching, semantic similarity, and experience-level analysis**. The results are presented through an interactive dashboard with candidate profiles, skill analysis, qualification status, and ATS scoring.
-
-[![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=flat&logo=streamlit&logoColor=white)](https://streamlit.io)
-[![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=flat&logo=python&logoColor=white)](https://python.org)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-
 
 > **From Resume → NLP Processing → Semantic Matching → Skill Analysis → ATS Score → Candidate Profile**
 
@@ -1029,6 +1028,7 @@ Resume + Job Description
             ▼
    Interactive Dashboard
 ```
+
 
 > **VectorHire ATS — Analyze resumes, understand candidate–job alignment, and turn unstructured documents into structured hiring signals.**
 
