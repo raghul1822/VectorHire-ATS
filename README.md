@@ -1033,6 +1033,7 @@ Resume + Job Description
 > **VectorHire ATS — Analyze resumes, understand candidate–job alignment, and turn unstructured documents into structured hiring signals.**
 
 
+---
 
 
 <p align="center">
