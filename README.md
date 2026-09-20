@@ -1039,3 +1039,5 @@ Resume + Job Description
 <p align="center">
   Built with ❤️ using Python, Streamlit & Sentence Transformers
 </p>
+
+---
